@@ -1,5 +1,4 @@
 const { App } = require("@slack/bolt");
-const { channel } = require("diagnostics_channel");
 const fs = require('fs');
 require("dotenv").config();
 
@@ -37,57 +36,69 @@ async function findConversation(name) {
   catch (error) {
     console.error(error);
   }
-}
+};
 
 // Find conversation with a specified channel `name`
 findConversation("making-memes");
 
 // Post your message
-async function publishWednesday(id, blocks) {
+async function publishWednesday() {
   try {
-    const result = await app.client.chat.postMessage({
-      token: process.env.SLACK_BOT_TOKEN,
-      channel: "C04HE15K3V3",
-      blocks: [
-        {
-          "type": "image",
-          "image_url": "https://cdn-useast1.kapwing.com/collections/video_image-ivrEC4x7V7.jpeg",
-          "alt_text": "It's a better day when it's Wednesday"
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "Looks like it's Wednesday"
-          }
-        },
-        {
-          "type": "image",
-          "image_url": "https://ahseeit.com//king-include/uploads/2021/05/dqujxbapdg171-8737728689.jpg",
-          "alt_text": "Don't ruin today, it's Wednesday my dudes"
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "You guessed it"
-          }
-        },
-        {
-          "type": "image",
-          "image_url": "https://i.redd.it/zofukaegglzz.jpg",
-          "alt_text": "Frog Wednesday"
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "This frog remembers, do you?"
-          }
-        }
-        ]
-    });
-    console.log(result);
+    const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const d = new Date();
+    let day = weekday[d.getDay()];
+    day.setHours(9, 0, 0)
+
+    if(day === "Wednesday") {
+        console.log("It's Wednesday");
+        const result = await app.client.chat.scheduleMessage({
+          token: process.env.SLACK_BOT_TOKEN,
+          channel: "C04HE15K3V3",
+          post_at: day.getTime() / 1000,
+          blocks: [
+            {
+              "type": "image",
+              "image_url": "https://cdn-useast1.kapwing.com/collections/video_image-ivrEC4x7V7.jpeg",
+              "alt_text": "It's a better day when it's Wednesday"
+            },
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "Looks like it's Wednesday"
+              }
+            },
+            {
+              "type": "image",
+              "image_url": "https://ahseeit.com//king-include/uploads/2021/05/dqujxbapdg171-8737728689.jpg",
+              "alt_text": "Don't ruin today, it's Wednesday my dudes"
+            },
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "You guessed it"
+              }
+            },
+            {
+              "type": "image",
+              "image_url": "https://i.redd.it/zofukaegglzz.jpg",
+              "alt_text": "Frog Wednesday"
+            },
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "This frog remembers, do you?"
+              }
+            }
+            ]
+        });
+        console.log(result);
+    } else {
+        console.log("It's not my time")
+    }
+    
   } catch(err) {
     console.error(err);
   }
