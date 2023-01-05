@@ -4,15 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run nodemon app.js",
-    "ngrok": "ngrok http 3000"
+    "dev": "nodemon app.js",
+    "build": "npm run-script build"
   },
   "keywords": [],
   "author": "Shane Chaffe",
   "license": "ISC",
   "dependencies": {
     "@slack/bolt": "^3.12.2",
+    "axios": "^1.2.2",
+    "crpyto": "^0.0.1-security",
+    "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "vercel": "^28.10.2"
   }
 }
